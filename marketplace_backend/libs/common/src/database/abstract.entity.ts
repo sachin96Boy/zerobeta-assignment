@@ -1,15 +1,14 @@
-export class AbstractEntity {
-  id: string;
+import { PrimaryGeneratedColumn } from 'typeorm';
+
+export class AbstractEntity<T> {
+  @PrimaryGeneratedColumn()
+  id: number;
   createdAt: Date;
   updatedAt: Date;
 
-  constructor() {
-    this.id = this.generateId();
+  constructor(entity: Partial<T>) {
+    Object.assign(this, entity);
     this.createdAt = new Date();
     this.updatedAt = new Date();
-  }
-
-  private generateId(): string {
-    return Math.random().toString(36).substring(2, 15);
   }
 }

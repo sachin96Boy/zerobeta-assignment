@@ -1,24 +1,58 @@
-export class AbstractRepository<T> {
-  constructor(private readonly model: any) {}
+import { Logger, NotFoundException } from '@nestjs/common';
+import { AbstractEntity } from './abstract.entity';
+import { EntityManager, FindOptionsWhere, Repository } from 'typeorm';
+import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 
-  async findAll(): Promise<T[]> {
-    return this.model.find();
+export abstract class AbstractRepository<T extends AbstractEntity<T>> {
+  protected abstract readonly loger: Logger;
+
+  constructor(
+    private readonly enntityRepository: Repository<T>,
+    private readonly entityManager: EntityManager,
+  ) {}
+
+  async create(entity: T): Promise<T> {
+    const newItem = this.entityManager.save(entity);
+    return newItem;
   }
 
-  async findById(id: string): Promise<T | null> {
-    return this.model.findById(id);
+  async findOne(where: FindOptionsWhere<T>): Promise<T> {
+    const entity = await this.enntityRepository.findOne({ where });
+
+    if (!entity) {
+      this.loger.warn('Entity not found with where:', where);
+      throw new NotFoundException('Entity not found');
+    }
+
+    return entity;
   }
 
-  async create(data: Partial<T>): Promise<T> {
-    const newItem = new this.model(data);
-    return newItem.save();
+  async findOneAndUpdate(
+    where: FindOptionsWhere<T>,
+    partialEntity: QueryDeepPartialEntity<T>,
+  ) {
+    const updateResult = await this.enntityRepository.update(
+      where,
+      partialEntity,
+    );
+
+    if (!updateResult.affected) {
+      this.loger.warn('Entity not found with where:', where);
+      throw new NotFoundException('Entity not found');
+    }
+
+    return this.findOne(where);
   }
 
-  async update(id: string, data: Partial<T>): Promise<T | null> {
-    return this.model.findByIdAndUpdate(id, data, { new: true });
+  async find(where: FindOptionsWhere<T>) {
+    return this.enntityRepository.findBy(where);
   }
 
-  async delete(id: string): Promise<T | null> {
-    return this.model.findByIdAndDelete(id);
+  async findOneAndDelete(where: FindOptionsWhere<T>) {
+    return this.enntityRepository.delete(where);
+  }
+
+  async findAll() {
+    return this.enntityRepository.find();
   }
 }
