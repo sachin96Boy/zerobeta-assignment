@@ -1,9 +1,14 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 
 import { LoginDto } from './dto/login.dto';
 import { UsersService } from './users/users.service';
+import { IPayload } from './types/payload.types';
 
 @Injectable()
 export class AuthService {
@@ -38,5 +43,25 @@ export class AuthService {
       access_token: accessToken,
       userwithoutpassword,
     };
+  }
+
+  async authenticate(authorizationToken: string) {
+    try {
+      const payload = this.jwtService.verify<IPayload>(authorizationToken);
+
+      if (!payload) {
+        throw new UnauthorizedException('Invalid token');
+      }
+
+      const user = this.userService.getUser({
+        email: payload.email,
+        sub: payload.sub,
+      });
+
+      return user;
+    } catch (err) {
+      console.error('Error verifying token:', err);
+      throw new UnauthorizedException('Invalid token');
+    }
   }
 }
