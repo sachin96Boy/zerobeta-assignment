@@ -3,10 +3,6 @@ services:
     image: postgres:latest
     ports:
       - '5432:5432'
-    environment:
-      POSTGRES_USER: muser
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: marketplace
     env_file:
       - ./marketplace_backend/.env
     restart: always
@@ -14,6 +10,17 @@ services:
       - db_data:/var/lib/postgresql/data
     networks:
       - my_network
+  # db:
+  #   image: mysql:latest
+  #   ports:
+  #     - '3306:3306'
+  #   env_file:
+  #     - ./marketplace_backend/.env
+  #   restart: always
+  #   volumes:
+  #     - db_data:/var/lib/mysql
+  #   networks:
+  #     - my_network
 
   marketplace_backend_gateway:
     build:
@@ -29,6 +36,8 @@ services:
       - ./marketplace_backend:/app
     depends_on:
       - db
+    networks:
+      - my_network
   auth:
     build:
       context: ./marketplace_backend
@@ -43,6 +52,8 @@ services:
       - ./marketplace_backend:/app
     depends_on:
       - db
+    networks:
+      - my_network
 
   products:
     build:
@@ -58,6 +69,8 @@ services:
       - ./marketplace_backend:/app
     depends_on:
       - db
+    networks:
+      - my_network
 
 
 networks:
