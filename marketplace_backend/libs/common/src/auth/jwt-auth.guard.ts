@@ -5,7 +5,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { ClientGrpcProxy } from '@nestjs/microservices';
+import { ClientProxy } from '@nestjs/microservices';
 import { User } from 'apps/auth/src/users/models/user.entity';
 import { Request } from 'express';
 import { map, Observable, tap } from 'rxjs';
@@ -13,7 +13,7 @@ import { AUTH_SERVICE } from '../constants';
 
 export class JwtAuthGuard implements CanActivate {
   constructor(
-    @Inject(AUTH_SERVICE) private readonly authClient: ClientGrpcProxy,
+    @Inject(AUTH_SERVICE) private readonly authClient: ClientProxy,
     private readonly configService: ConfigService,
   ) {}
 
