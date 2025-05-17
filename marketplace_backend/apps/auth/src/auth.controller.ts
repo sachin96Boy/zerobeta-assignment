@@ -9,7 +9,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { Response } from 'express';
-import { UsersService } from '../users.service';
+import { UsersService } from './users/users.service';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { LocalAuthGuard } from './guards/local-auth.guard';

@@ -1,4 +1,4 @@
-FROM node:alpine As development
+FROM node:alpine AS development
 
 WORKDIR /usr/src/app
 
@@ -29,4 +29,4 @@ RUN pnpm install --prod
 
 COPY --from=development /usr/src/app/dist ./dist
 
-CMD ["node", "dist/apps/users/main"]
+CMD ["node", "dist/apps/auth/main"]

@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ClientGrpcProxy } from '@nestjs/microservices';
-import { User } from 'apps/users/src/models/user.entity';
+import { User } from 'apps/auth/src/users/models/user.entity';
 import { Request } from 'express';
 import { map, Observable, tap } from 'rxjs';
 import { AUTH_SERVICE } from '../constants';

@@ -1,12 +1,12 @@
-import { NestFactory } from '@nestjs/core';
-import { UsersModule } from './users.module';
 import { ValidationPipe } from '@nestjs/common';
-import { Logger } from 'nestjs-pino';
 import { ConfigService } from '@nestjs/config';
+import { NestFactory } from '@nestjs/core';
 import { Transport } from '@nestjs/microservices';
+import { Logger } from 'nestjs-pino';
+import { AuthModule } from './auth.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(UsersModule);
+  const app = await NestFactory.create(AuthModule);
 
   const configService = app.get(ConfigService);
 

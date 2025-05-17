@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { ProductsModule } from './products.module';
 import { ConfigService } from '@nestjs/config';
 import { Transport } from '@nestjs/microservices';
+import { Logger } from 'nestjs-pino';
 
 async function bootstrap() {
   const app = await NestFactory.create(ProductsModule);
@@ -15,6 +16,8 @@ async function bootstrap() {
       port: connfigService.get<number>('PORT') ?? 3003,
     },
   });
+
+  app.useLogger(app.get(Logger));
 
   await app.startAllMicroservices();
 }

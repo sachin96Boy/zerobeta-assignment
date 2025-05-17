@@ -1,11 +1,11 @@
 {
   "$schema": "https://json.schemastore.org/nest-cli",
   "collection": "@nestjs/schematics",
-  "sourceRoot": "apps/marketplace_backend/src",
+  "sourceRoot": "apps/marketplace_backend_gateway/src",
   "compilerOptions": {
     "deleteOutDir": true,
     "webpack": true,
-    "tsConfigPath": "apps/marketplace_backend/tsconfig.app.json"
+    "tsConfigPath": "apps/marketplace_backend_gateway/tsconfig.app.json"
   },
   "projects": {
     "common": {
@@ -26,13 +26,13 @@
         "tsConfigPath": "apps/inventories/tsconfig.app.json"
       }
     },
-    "marketplace_backend": {
+    "marketplace_backend_gateway": {
       "type": "application",
-      "root": "apps/marketplace_backend",
+      "root": "apps/marketplace_backend_gateway",
       "entryFile": "main",
-      "sourceRoot": "apps/marketplace_backend/src",
+      "sourceRoot": "apps/marketplace_backend_gateway/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/marketplace_backend/tsconfig.app.json"
+        "tsConfigPath": "apps/marketplace_backend_gateway/tsconfig.app.json"
       }
     },
     "orders": {
@@ -53,16 +53,16 @@
         "tsConfigPath": "apps/products/tsconfig.app.json"
       }
     },
-    "users": {
+    "auth": {
       "type": "application",
-      "root": "apps/users",
+      "root": "apps/auth",
       "entryFile": "main",
-      "sourceRoot": "apps/users/src",
+      "sourceRoot": "apps/auth/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/users/tsconfig.app.json"
+        "tsConfigPath": "apps/auth/tsconfig.app.json"
       }
     }
   },
   "monorepo": true,
-  "root": "apps/marketplace_backend"
+  "root": "apps/marketplace_backend_gateway"
 }

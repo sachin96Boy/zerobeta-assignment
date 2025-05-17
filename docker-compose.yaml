@@ -3,11 +3,7 @@ services:
     image: postgres:latest
     restart: always
     env_file:
-      - ./.env
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: mydb
+      - ./marketplace_backend/.env
     ports:
       - "5432:5432"
     volumes:
@@ -18,25 +14,25 @@ services:
   marketplace_backend_gateway:
     build:
       context: ./marketplace_backend
-      dockerfile: ./apps/marketplace_backend/Dockerfile
+      dockerfile: apps/marketplace_backend_gateway/Dockerfile
       target: development
-    command: pnpm run start:dev marketplace_backend
+    command: pnpm run start:dev marketplace_backend_gateway
     env_file:
-      - ./apps/marketplace_backend/.env
+      - ./marketplace_backend/apps/marketplace_backend_gateway/.env
     ports:
       - "3000:3000"
     volumes:
       - ./marketplace_backend:/app
     depends_on:
       - db
-  users:
+  auth:
     build:
       context: ./marketplace_backend
-      dockerfile: ./apps/users/Dockerfile
+      dockerfile: apps/auth/Dockerfile
       target: development
-    command: pnpm run start:dev users
+    command: pnpm run start:dev auth
     env_file:
-      - ./apps/users/.env
+      - ./marketplace_backend/apps/auth/.env
     ports:
       - "3001:3001"
     volumes:
@@ -47,11 +43,11 @@ services:
   products:
     build:
       context: ./marketplace_backend
-      dockerfile: ./apps/products/Dockerfile
+      dockerfile: apps/products/Dockerfile
       target: development
     command: pnpm run start:dev products
     env_file:
-      - ./apps/products/.env
+      - ./marketplace_backend/apps/products/.env
     ports:
       - "3003:3003"
     volumes:
