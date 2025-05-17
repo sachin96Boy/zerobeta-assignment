@@ -44,6 +44,22 @@ services:
     depends_on:
       - db
 
+  products:
+    build:
+      context: ./marketplace_backend
+      dockerfile: ./apps/products/Dockerfile
+      target: development
+    command: pnpm run start:dev products
+    env_file:
+      - ./apps/products/.env
+    ports:
+      - "3003:3003"
+    volumes:
+      - ./marketplace_backend:/app
+    depends_on:
+      - db
+
+
 networks:
   my_network:
     driver: bridge
