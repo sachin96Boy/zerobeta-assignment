@@ -7,13 +7,13 @@ import { Logger } from 'nestjs-pino';
 async function bootstrap() {
   const app = await NestFactory.create(ProductsModule);
 
-  const connfigService = app.get(ConfigService);
+  const configService = app.get(ConfigService);
 
   app.connectMicroservice({
     transport: Transport.TCP,
     options: {
       host: '0.0.0.0',
-      port: connfigService.get<number>('PORT') ?? 3003,
+      port: configService.get<number>('PORT') ?? 3003,
     },
   });
 

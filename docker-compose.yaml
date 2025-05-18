@@ -88,6 +88,40 @@ services:
     networks:
       - my_network
 
+  orders:
+    build:
+      context: ./marketplace_backend
+      dockerfile: apps/orders/Dockerfile
+      target: development
+    command: pnpm run start:dev orders
+    env_file:
+      - ./marketplace_backend/apps/orders/.env
+    ports:
+      - '3004:3004'
+    volumes:
+      - ./marketplace_backend:/app
+    depends_on:
+      - db
+    networks:
+      - my_network
+
+  inventories:
+    build:
+      context: ./marketplace_backend
+      dockerfile: apps/inventories/Dockerfile
+      target: development
+    command: pnpm run start:dev inventories
+    env_file:
+      - ./marketplace_backend/apps/inventories/.env
+    ports:
+      - '3005:3005'
+    volumes:
+      - ./marketplace_backend:/app
+    depends_on:
+      - db
+    networks:
+      - my_network
+
 
 networks:
   my_network:
