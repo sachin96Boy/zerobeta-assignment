@@ -29,4 +29,4 @@ RUN pnpm install --prod
 
 COPY --from=development /usr/src/app/dist ./dist
 
-CMD ["node", "dist/apps/marketplace_backend/main"]
+CMD ["node", "dist/apps/marketplace_backend_gateway/main"]

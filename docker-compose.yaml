@@ -59,6 +59,8 @@ services:
       - db
     networks:
       - my_network
+    environment:
+      - KAFKA_BROKER=kafka:9092    
   auth:
     build:
       context: ./marketplace_backend

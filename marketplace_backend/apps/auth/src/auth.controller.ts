@@ -9,7 +9,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @UseGuards(LocalAuthGuard)
-  @MessagePattern('login_user')
+  @MessagePattern('login.user')
   async loginUser(@Payload() data: LoginDto) {
     return await this.authService.login(data);
   }

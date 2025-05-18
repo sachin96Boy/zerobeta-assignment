@@ -30,7 +30,7 @@ import {
           options: {
             client: {
               brokers: [
-                configService.get<string>('KAFKA_BROKER') || 'localhost:9092',
+                configService.get<string>('KAFKA_BROKER') || 'kafka:9092',
               ],
             },
             consumer: {
@@ -47,7 +47,7 @@ import {
           options: {
             client: {
               brokers: [
-                configService.get<string>('KAFKA_BROKER') || 'localhost:9092',
+                configService.get<string>('KAFKA_BROKER') || 'kafka:9092',
               ],
             },
             consumer: {
@@ -64,7 +64,7 @@ import {
           options: {
             client: {
               brokers: [
-                configService.get<string>('KAFKA_BROKER') || 'localhost:9092',
+                configService.get<string>('KAFKA_BROKER') || 'kafka:9092',
               ],
             },
             consumer: {
@@ -85,7 +85,8 @@ export class AppModule {
   ) {}
 
   async onModuleInit() {
-    this.authClient.subscribeToResponseOf('login_user');
+    this.authClient.subscribeToResponseOf('login.user');
+    this.authClient.subscribeToResponseOf('register.user');
     await this.authClient.connect();
   }
 }

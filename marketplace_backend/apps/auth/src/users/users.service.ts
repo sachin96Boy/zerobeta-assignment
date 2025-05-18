@@ -52,7 +52,7 @@ export class UsersService {
 
   async getUser(paylod: { email: string; sub: string }) {
     const user = await this.usersRepository.findOne({
-      id: +paylod.sub,
+      id: paylod.sub,
       email: paylod.email,
     });
     if (!user) {

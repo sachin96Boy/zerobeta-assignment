@@ -7,7 +7,7 @@ import { InventoriesService } from './inventories.service';
 export class InventoriesController {
   constructor(private readonly inventoriesService: InventoriesService) {}
 
-  @EventPattern('initial_product_inventory')
+  @EventPattern('initial.product.inventory')
   async createInventory(@Payload() data: InventoryDto) {
     return this.inventoriesService.createInventory(data);
   }

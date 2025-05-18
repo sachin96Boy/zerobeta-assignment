@@ -23,7 +23,7 @@ export class AppService {
   ) {}
 
   login(loginDto: LoginDto) {
-    return this.authClient.send('login_user', loginDto).pipe(
+    return this.authClient.send('login.user', loginDto).pipe(
       catchError((err) => {
         throw new UnprocessableEntityException(err);
       }),
@@ -31,7 +31,7 @@ export class AppService {
   }
 
   register(createUserDto: CreateUserDto) {
-    return this.authClient.send('register_user', createUserDto).pipe(
+    return this.authClient.send('register.user', createUserDto).pipe(
       catchError((err) => {
         throw new UnprocessableEntityException(err);
       }),
@@ -39,7 +39,7 @@ export class AppService {
   }
 
   createProduct(createProductDto: CreateProductDto) {
-    return this.productClient.send('create_product', createProductDto).pipe(
+    return this.productClient.send('create.product', createProductDto).pipe(
       catchError((err) => {
         throw new UnprocessableEntityException(err);
       }),

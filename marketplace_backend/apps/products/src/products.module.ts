@@ -2,7 +2,12 @@ import { Module } from '@nestjs/common';
 import { ProductsController } from './products.controller';
 import { ProductsService } from './products.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { DatabaseModule, INVENTORY_SERVICE, LoggerModule } from '@app/common';
+import {
+  AUTH_SERVICE,
+  DatabaseModule,
+  INVENTORY_SERVICE,
+  LoggerModule,
+} from '@app/common';
 import { Product } from './models/product.entity';
 import { ProductRepository } from './product.repository';
 import { ClientsModule, Transport } from '@nestjs/microservices';
@@ -28,6 +33,23 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
             },
             consumer: {
               groupId: 'inventories-consumer',
+            },
+          },
+        }),
+        inject: [ConfigService],
+      },
+      {
+        name: AUTH_SERVICE,
+        useFactory: (configService: ConfigService) => ({
+          transport: Transport.KAFKA,
+          options: {
+            client: {
+              brokers: [
+                configService.get<string>('KAFKA_BROKER') || 'localhost:9092',
+              ],
+            },
+            consumer: {
+              groupId: 'auth-consumer',
             },
           },
         }),
