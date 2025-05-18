@@ -1,11 +1,17 @@
 import {
   AUTH_SERVICE,
+  CreateUserDto,
   LoginDto,
   ORDER_SERVICE,
   PRODUCT_SERVICE,
 } from '@app/common';
-import { Inject, Injectable, NotAcceptableException } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { ClientKafkaProxy } from '@nestjs/microservices';
+import { CreateProductDto } from 'apps/products/src/dto/create-product.dto';
 import { catchError } from 'rxjs';
 
 @Injectable()
@@ -19,7 +25,23 @@ export class AppService {
   login(loginDto: LoginDto) {
     return this.authClient.send('login_user', loginDto).pipe(
       catchError((err) => {
-        throw new NotAcceptableException(err);
+        throw new UnprocessableEntityException(err);
+      }),
+    );
+  }
+
+  register(createUserDto: CreateUserDto) {
+    return this.authClient.send('register_user', createUserDto).pipe(
+      catchError((err) => {
+        throw new UnprocessableEntityException(err);
+      }),
+    );
+  }
+
+  createProduct(createProductDto: CreateProductDto) {
+    return this.productClient.send('create_product', createProductDto).pipe(
+      catchError((err) => {
+        throw new UnprocessableEntityException(err);
       }),
     );
   }
