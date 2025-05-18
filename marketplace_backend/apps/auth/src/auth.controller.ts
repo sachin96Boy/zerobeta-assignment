@@ -1,6 +1,5 @@
-import { Body, Controller, Post, Res, UseGuards } from '@nestjs/common';
+import { Controller, UseGuards } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
-import { Response } from 'express';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { LocalAuthGuard } from './guards/local-auth.guard';
@@ -10,11 +9,9 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @UseGuards(LocalAuthGuard)
-  @Post('login')
-  async login(@Body() loginDto: LoginDto, @Res() response: Response) {
-    // Implement your login logic here
-    const data = await this.authService.login(loginDto);
-    response.send(data);
+  @MessagePattern('login_user')
+  async loginUser(@Payload() data: LoginDto) {
+    return await this.authService.login(data);
   }
 
   @MessagePattern('authenticate')
