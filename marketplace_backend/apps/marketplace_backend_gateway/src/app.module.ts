@@ -16,10 +16,16 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
       {
         name: AUTH_SERVICE,
         useFactory: (configService: ConfigService) => ({
-          transport: Transport.TCP,
+          transport: Transport.KAFKA,
           options: {
-            host: configService.get('AUTH_SERVICE_HOST'),
-            port: configService.get('AUTH_SERVICE_PORT'),
+            client: {
+              brokers: [
+                configService.get<string>('KAFKA_BROKER') || 'localhost:9092',
+              ],
+            },
+            consumer: {
+              groupId: 'auth-consumer',
+            },
           },
         }),
         inject: [ConfigService],

@@ -11,10 +11,14 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
 
   app.connectMicroservice({
-    transport: Transport.TCP,
+    transport: Transport.KAFKA,
     options: {
-      host: '0.0.0.0',
-      port: configService.get<number>('TCP_PORT') ?? 3002,
+      client: {
+        brokers: [configService.get<string>('KAFKA_BROKER')],
+      },
+      consumer: {
+        groupId: 'auth-consumer',
+      },
     },
   });
 
@@ -28,7 +32,5 @@ async function bootstrap() {
   app.useLogger(app.get(Logger));
 
   await app.startAllMicroservices();
-
-  await app.listen(configService.get('PORT') ?? 3001);
 }
 bootstrap();
