@@ -72,6 +72,7 @@ services:
     volumes:
       - ./marketplace_backend:/app
     depends_on:
+      - kafka    
       - db
     networks:
       - my_network
@@ -89,6 +90,7 @@ services:
     volumes:
       - ./marketplace_backend:/app
     depends_on:
+      - kafka    
       - db
     networks:
       - my_network
@@ -106,6 +108,7 @@ services:
     volumes:
       - ./marketplace_backend:/app
     depends_on:
+      - kafka    
       - db
     networks:
       - my_network
@@ -123,6 +126,7 @@ services:
     volumes:
       - ./marketplace_backend:/app
     depends_on:
+      - kafka    
       - db
     networks:
       - my_network
