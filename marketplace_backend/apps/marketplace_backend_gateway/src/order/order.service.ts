@@ -7,6 +7,7 @@ import {
 import { ClientKafkaProxy } from '@nestjs/microservices';
 import { OrderByBuyerId } from 'apps/orders/src/dto/orderByBuyerId.dto';
 import { CreateOrderDto } from 'apps/orders/src/dto/orderItem.entity';
+import { removOrderDto } from 'apps/orders/src/dto/removeOrder.dto';
 import { catchError } from 'rxjs';
 
 @Injectable()
@@ -25,6 +26,13 @@ export class OrderService {
 
   findAll(orderbyBuyerId: OrderByBuyerId) {
     return this.orderClient.send('order.by.buyer', orderbyBuyerId).pipe(
+      catchError((err) => {
+        throw new UnprocessableEntityException(err);
+      }),
+    );
+  }
+  removeOrder(removeOrderDto: removOrderDto) {
+    return this.orderClient.send('remove.order', removeOrderDto).pipe(
       catchError((err) => {
         throw new UnprocessableEntityException(err);
       }),

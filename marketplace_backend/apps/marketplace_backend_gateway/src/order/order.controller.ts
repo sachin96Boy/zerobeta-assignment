@@ -8,6 +8,7 @@ import {
 import { OrderByBuyerId } from 'apps/orders/src/dto/orderByBuyerId.dto';
 import { CreateOrderDto } from 'apps/orders/src/dto/orderItem.entity';
 import { OrderService } from './order.service';
+import { removOrderDto } from 'apps/orders/src/dto/removeOrder.dto';
 
 @Controller('order')
 export class OrderController {
@@ -22,5 +23,9 @@ export class OrderController {
   @Post()
   findAll(@Body() orderbyBuyerId: OrderByBuyerId) {
     return this.orderService.findAll(orderbyBuyerId);
+  }
+  @Post('remove')
+  remove(@Body() removeOrderDto: removOrderDto) {
+    return this.orderService.removeOrder(removeOrderDto);
   }
 }

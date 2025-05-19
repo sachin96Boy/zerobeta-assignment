@@ -13,6 +13,7 @@ import { Order, OrderItem } from './models/order.entity';
 import { OrderStatus } from './enum/orderstatus.enum';
 import { catchError } from 'rxjs';
 import { OrderByBuyerId } from './dto/orderByBuyerId.dto';
+import { removOrderDto } from './dto/removeOrder.dto';
 
 @Injectable()
 export class OrdersService {
@@ -64,6 +65,24 @@ export class OrdersService {
     });
 
     return ordersList;
+  }
+
+  async removeOrder(data: removOrderDto) {
+    const order = await this.orderRepository.findOne({
+      id: data.orderId,
+      buyerId: data.buyerId,
+    });
+
+    order.status = OrderStatus.CANCELLED;
+
+    const updatedOrder = await this.orderRepository.findOneAndUpdate(
+      {
+        id: order.id,
+      },
+      order,
+    );
+
+    return updatedOrder;
   }
 
   async handleUncompletedOrders() {

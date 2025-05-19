@@ -1,6 +1,7 @@
 import {
   AUTH_SERVICE,
   DatabaseModule,
+  INVENTORY_SERVICE,
   LoggerModule,
   ORDER_SERVICE,
   PRODUCT_SERVICE,
@@ -18,6 +19,8 @@ import { OrderController } from './order/order.controller';
 import { OrderService } from './order/order.service';
 import { ProductController } from './product/product.controller';
 import { ProductService } from './product/product.service';
+import { InventoryService } from './inventory/inventory.service';
+import { InventoryController } from './inventory/inventory.controller';
 
 @Module({
   imports: [
@@ -78,10 +81,32 @@ import { ProductService } from './product/product.service';
         }),
         inject: [ConfigService],
       },
+      {
+        name: INVENTORY_SERVICE,
+        useFactory: (configService: ConfigService) => ({
+          transport: Transport.KAFKA,
+          options: {
+            client: {
+              brokers: [
+                configService.get<string>('KAFKA_BROKER') || 'kafka:9092',
+              ],
+            },
+            consumer: {
+              groupId: 'inventories-consumer',
+            },
+          },
+        }),
+        inject: [ConfigService],
+      },
     ]),
   ],
-  controllers: [AuthController, OrderController, ProductController],
-  providers: [AuthService, OrderService, ProductService],
+  controllers: [
+    AuthController,
+    OrderController,
+    ProductController,
+    InventoryController,
+  ],
+  providers: [AuthService, OrderService, ProductService, InventoryService],
 })
 export class AppModule {
   constructor(
