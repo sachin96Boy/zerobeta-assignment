@@ -16,9 +16,7 @@ describe('InventoriesController', () => {
     );
   });
 
-  describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(inventoriesController.getHello()).toBe('Hello World!');
-    });
+  it('should be defined', () => {
+    expect(inventoriesController).toBeDefined();
   });
 });

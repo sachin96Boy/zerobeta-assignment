@@ -1,5 +1,6 @@
 import { Controller } from '@nestjs/common';
 import { EventPattern, Payload } from '@nestjs/microservices';
+import { OrderItem } from 'apps/orders/src/models/order.entity';
 import { InventoryDto } from './dto/inventory.dto';
 import { InventoriesService } from './inventories.service';
 
@@ -10,5 +11,11 @@ export class InventoriesController {
   @EventPattern('initial.product.inventory')
   async createInventory(@Payload() data: InventoryDto) {
     return this.inventoriesService.createInventory(data);
+  }
+  @EventPattern('update.inventory.order')
+  async createInventoryAfterOrder(
+    @Payload() data: { id: string; items: OrderItem[] }[],
+  ) {
+    return this.inventoriesService.updateInventoriesAfterOrder(data);
   }
 }

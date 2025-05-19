@@ -28,7 +28,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
           options: {
             client: {
               brokers: [
-                configService.get<string>('KAFKA_BROKER') || 'localhost:9092',
+                configService.get<string>('KAFKA_BROKER') || 'kafka:9092',
               ],
             },
             consumer: {
@@ -45,7 +45,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
           options: {
             client: {
               brokers: [
-                configService.get<string>('KAFKA_BROKER') || 'localhost:9092',
+                configService.get<string>('KAFKA_BROKER') || 'kafka:9092',
               ],
             },
             consumer: {

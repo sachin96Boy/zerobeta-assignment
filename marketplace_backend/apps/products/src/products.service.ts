@@ -42,10 +42,12 @@ export class ProductsService {
       quantity: 0,
     };
 
-    return this.inventoryClient.emit('initial.product.inventory', invData).pipe(
+    this.inventoryClient.emit('initial.product.inventory', invData).pipe(
       catchError((err) => {
         throw new UnprocessableEntityException(err);
       }),
     );
+
+    return product;
   }
 }

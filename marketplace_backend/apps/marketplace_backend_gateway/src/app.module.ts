@@ -1,6 +1,3 @@
-import { Inject, Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import {
   AUTH_SERVICE,
   DatabaseModule,
@@ -8,12 +5,19 @@ import {
   ORDER_SERVICE,
   PRODUCT_SERVICE,
 } from '@app/common';
+import { Inject, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import {
   ClientKafkaProxy,
   ClientsModule,
   Transport,
 } from '@nestjs/microservices';
+import { AuthController } from './auth/auth.controller';
+import { AuthService } from './auth/auth.service';
+import { OrderController } from './order/order.controller';
+import { OrderService } from './order/order.service';
+import { ProductController } from './product/product.controller';
+import { ProductService } from './product/product.service';
 
 @Module({
   imports: [
@@ -76,8 +80,8 @@ import {
       },
     ]),
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AuthController, OrderController, ProductController],
+  providers: [AuthService, OrderService, ProductService],
 })
 export class AppModule {
   constructor(
