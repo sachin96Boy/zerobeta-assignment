@@ -6,6 +6,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
+import { CreateProductDto } from 'apps/products/src/dto/create-product.dto';
 
 @Controller('product')
 export class ProductController {
