@@ -5,7 +5,7 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { OrderByBuyerId } from 'apps/orders/src/dto/orderByBuyerId.dto';
+import { OrderByBuyerId } from '@app/common/dto/orderByBuyerId.dto';
 import { CreateOrderDto } from 'apps/orders/src/dto/orderItem.entity';
 import { OrderService } from './order.service';
 import { removOrderDto } from 'apps/orders/src/dto/removeOrder.dto';

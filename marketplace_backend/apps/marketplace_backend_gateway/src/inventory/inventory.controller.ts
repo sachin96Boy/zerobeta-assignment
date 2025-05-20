@@ -6,7 +6,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { InventoryService } from './inventory.service';
-import { UpdateInventoryDto } from 'apps/inventories/src/dto/update-inventory.dto';
+import { UpdateInventoryDto } from '@app/common/dto/update-inventory.dto';
 
 @Controller('inventory')
 export class InventoryController {

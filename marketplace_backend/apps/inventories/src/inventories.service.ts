@@ -3,7 +3,7 @@ import { OrderItem } from 'apps/orders/src/models/order.entity';
 import { InventoryDto } from './dto/inventory.dto';
 import { InventoryRepository } from './inventory.repository';
 import { Inventory } from './models/inventory.entity';
-import { UpdateInventoryDto } from './dto/update-inventory.dto';
+import { UpdateInventoryDto } from '@app/common';
 
 @Injectable()
 export class InventoriesService {

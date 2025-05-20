@@ -5,7 +5,7 @@ import {
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { ClientKafkaProxy } from '@nestjs/microservices';
-import { UpdateInventoryDto } from 'apps/inventories/src/dto/update-inventory.dto';
+import { UpdateInventoryDto } from '@app/common/dto/update-inventory.dto';
 import { catchError } from 'rxjs';
 
 @Injectable()

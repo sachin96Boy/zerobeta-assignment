@@ -12,7 +12,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Order, OrderItem } from './models/order.entity';
 import { OrderStatus } from './enum/orderstatus.enum';
 import { catchError } from 'rxjs';
-import { OrderByBuyerId } from './dto/orderByBuyerId.dto';
+import { OrderByBuyerId } from '../../../libs/common/src/dto/orderByBuyerId.dto';
 import { removOrderDto } from './dto/removeOrder.dto';
 
 @Injectable()

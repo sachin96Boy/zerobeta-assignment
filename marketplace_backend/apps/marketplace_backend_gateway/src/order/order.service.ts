@@ -5,7 +5,7 @@ import {
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { ClientKafkaProxy } from '@nestjs/microservices';
-import { OrderByBuyerId } from 'apps/orders/src/dto/orderByBuyerId.dto';
+import { OrderByBuyerId } from '@app/common/dto/orderByBuyerId.dto';
 import { CreateOrderDto } from 'apps/orders/src/dto/orderItem.entity';
 import { removOrderDto } from 'apps/orders/src/dto/removeOrder.dto';
 import { catchError } from 'rxjs';

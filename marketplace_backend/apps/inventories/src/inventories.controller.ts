@@ -3,7 +3,7 @@ import { EventPattern, Payload } from '@nestjs/microservices';
 import { OrderItem } from 'apps/orders/src/models/order.entity';
 import { InventoryDto } from './dto/inventory.dto';
 import { InventoriesService } from './inventories.service';
-import { UpdateInventoryDto } from './dto/update-inventory.dto';
+import { UpdateInventoryDto } from '../../../libs/common/src/dto/update-inventory.dto';
 
 @Controller()
 export class InventoriesController {

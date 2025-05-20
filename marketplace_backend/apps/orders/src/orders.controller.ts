@@ -2,7 +2,7 @@ import { Controller, UsePipes, ValidationPipe } from '@nestjs/common';
 import { EventPattern, MessagePattern, Payload } from '@nestjs/microservices';
 import { CreateOrderDto } from './dto/orderItem.entity';
 import { OrdersService } from './orders.service';
-import { OrderByBuyerId } from './dto/orderByBuyerId.dto';
+import { OrderByBuyerId } from '../../../libs/common/src/dto/orderByBuyerId.dto';
 import { Cron } from '@nestjs/schedule';
 import { removOrderDto } from './dto/removeOrder.dto';
 
