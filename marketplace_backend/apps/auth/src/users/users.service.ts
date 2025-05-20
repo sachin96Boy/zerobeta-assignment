@@ -10,6 +10,7 @@ export class UsersService {
   constructor(private readonly usersRepository: UserRepository) {}
 
   async create(createUserDto: CreateUserDto) {
+    console.log(createUserDto);
     const plainPassword = createUserDto.password;
     const hashedPassword = await bcrypt.hash(plainPassword, 10);
 
