@@ -3,6 +3,7 @@ import { OrderItem } from 'apps/orders/src/models/order.entity';
 import { InventoryDto } from './dto/inventory.dto';
 import { InventoryRepository } from './inventory.repository';
 import { Inventory } from './models/inventory.entity';
+import { UpdateInventoryDto } from './dto/update-inventory.dto';
 
 @Injectable()
 export class InventoriesService {
@@ -47,5 +48,27 @@ export class InventoriesService {
         await this.inventoryRepository.findOneAndUpdate({ id: inv.id }, inv);
       }
     }
+  }
+
+  async updateInventories(data: UpdateInventoryDto) {
+    const inventoryToUpdate = await this.inventoryRepository.findOne({
+      productId: data.productId,
+    });
+
+    if (!inventoryToUpdate) {
+      throw new Error('no inventory to update');
+    }
+
+    if (data.price) {
+      inventoryToUpdate.price = data.price;
+    }
+    if (data.quantity) {
+      inventoryToUpdate.quantity += data.quantity;
+    }
+
+    return this.inventoryRepository.findOneAndUpdate(
+      { id: inventoryToUpdate.id },
+      inventoryToUpdate,
+    );
   }
 }

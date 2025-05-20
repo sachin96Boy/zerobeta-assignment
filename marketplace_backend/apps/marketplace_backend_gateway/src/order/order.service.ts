@@ -32,7 +32,7 @@ export class OrderService {
     );
   }
   removeOrder(removeOrderDto: removOrderDto) {
-    return this.orderClient.send('remove.order', removeOrderDto).pipe(
+    return this.orderClient.emit('remove.order', removeOrderDto).pipe(
       catchError((err) => {
         throw new UnprocessableEntityException(err);
       }),
