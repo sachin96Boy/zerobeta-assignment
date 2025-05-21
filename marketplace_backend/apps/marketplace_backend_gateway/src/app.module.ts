@@ -111,11 +111,18 @@ import { InventoryController } from './inventory/inventory.controller';
 export class AppModule {
   constructor(
     @Inject(AUTH_SERVICE) private readonly authClient: ClientKafkaProxy,
+    @Inject(PRODUCT_SERVICE) private readonly productCient: ClientKafkaProxy,
   ) {}
 
   async onModuleInit() {
     this.authClient.subscribeToResponseOf('login.user');
     this.authClient.subscribeToResponseOf('register.user');
+    this.authClient.subscribeToResponseOf('authenticate');
+
+    this.productCient.subscribeToResponseOf('create.product');
+    this.productCient.subscribeToResponseOf('get.all.product');
+
     await this.authClient.connect();
+    await this.productCient.connect();
   }
 }

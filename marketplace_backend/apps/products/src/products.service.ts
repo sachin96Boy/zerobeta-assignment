@@ -45,6 +45,9 @@ export class ProductsService {
       }),
     );
 
-    return product;
+    return { ...product };
+  }
+  async getAllProducts() {
+    return this.productRepository.findAll();
   }
 }
