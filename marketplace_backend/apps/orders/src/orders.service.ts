@@ -49,7 +49,7 @@ export class OrdersService {
       });
     }
 
-    return savedOrder;
+    return { ...savedOrder };
   }
 
   async ordersByBuyer(data: OrderByBuyerId) {
@@ -78,7 +78,7 @@ export class OrdersService {
       order,
     );
 
-    return updatedOrder;
+    return { ...updatedOrder };
   }
 
   async handleUncompletedOrders() {

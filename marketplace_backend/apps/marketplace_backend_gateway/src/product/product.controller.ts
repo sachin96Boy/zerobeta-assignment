@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   Post,
   UseGuards,
   UsePipes,
@@ -23,5 +24,11 @@ export class ProductController {
     @currentUser() user: User,
   ) {
     return this.productService.createProduct(createProductDto, user);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get()
+  getProducts() {
+    return this.productService.getAllProducts();
   }
 }

@@ -18,11 +18,18 @@ export class ProductService {
 
   createProduct(createProductDto: CreateProductDto, user: User) {
     return this.productClient
-      .emit('create.product', { ...createProductDto, id: user.id })
+      .send('create.product', { ...createProductDto, id: user.id })
       .pipe(
         catchError((err) => {
           throw new UnprocessableEntityException(err);
         }),
       );
+  }
+  getAllProducts() {
+    return this.productClient.send('get.all.product', {}).pipe(
+      catchError((err) => {
+        throw new UnprocessableEntityException(err);
+      }),
+    );
   }
 }
