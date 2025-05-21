@@ -116,6 +116,7 @@ export class AppModule {
   async onModuleInit() {
     this.authClient.subscribeToResponseOf('login.user');
     this.authClient.subscribeToResponseOf('register.user');
+    this.authClient.subscribeToResponseOf('authenticate');
     await this.authClient.connect();
   }
 }

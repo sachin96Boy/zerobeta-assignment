@@ -1,4 +1,5 @@
 import { PRODUCT_SERVICE } from '@app/common';
+import { User } from '@app/common/models';
 import {
   Body,
   Inject,
@@ -15,9 +16,9 @@ export class ProductService {
     @Inject(PRODUCT_SERVICE) private readonly productClient: ClientKafkaProxy,
   ) {}
 
-  createProduct(@Body() createProductDto: CreateProductDto) {
+  createProduct(createProductDto: CreateProductDto, user: User) {
     return this.productClient
-      .send('create.product', { ...createProductDto })
+      .send('create.product', { ...createProductDto, id: user.id })
       .pipe(
         catchError((err) => {
           throw new UnprocessableEntityException(err);
