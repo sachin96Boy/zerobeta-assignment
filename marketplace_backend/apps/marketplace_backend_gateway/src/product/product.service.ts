@@ -18,7 +18,7 @@ export class ProductService {
 
   createProduct(createProductDto: CreateProductDto, user: User) {
     return this.productClient
-      .send('create.product', { ...createProductDto, id: user.id })
+      .emit('create.product', { ...createProductDto, id: user.id })
       .pipe(
         catchError((err) => {
           throw new UnprocessableEntityException(err);

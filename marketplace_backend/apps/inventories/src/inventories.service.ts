@@ -18,7 +18,7 @@ export class InventoriesService {
       throw new ConflictException('inventory item already created');
     }
 
-    return await this.inventoryRepository.create({
+    return this.inventoryRepository.create({
       ...data,
     });
   }

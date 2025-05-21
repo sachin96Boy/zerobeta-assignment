@@ -22,7 +22,6 @@ export class ProductController {
     @Body() createProductDto: CreateProductDto,
     @currentUser() user: User,
   ) {
-    console.log(user);
     return this.productService.createProduct(createProductDto, user);
   }
 }
