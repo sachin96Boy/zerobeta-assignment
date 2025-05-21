@@ -8,7 +8,7 @@ import {
 import { AuthService } from './auth.service';
 import { CreateUserDto, LoginDto } from '@app/common';
 
-@Controller('auth')
+@Controller('api/auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 

@@ -1,27 +1,33 @@
 import { Logger, NotFoundException } from '@nestjs/common';
 import { AbstractEntity } from './abstract.entity';
-import { EntityManager, FindOptionsWhere, Repository } from 'typeorm';
+import {
+  DeepPartial,
+  EntityManager,
+  FindOptionsWhere,
+  Repository,
+} from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 
-export abstract class AbstractRepository<T extends AbstractEntity<T>> {
+export abstract class AbstractRepository<T extends AbstractEntity> {
   protected abstract readonly loger: Logger;
 
   constructor(
-    private readonly enntityRepository: Repository<T>,
+    private readonly entityRepository: Repository<T>,
     private readonly entityManager: EntityManager,
   ) {}
 
-  async create(entity: T): Promise<T> {
-    const newItem = this.entityManager.save(entity);
+  async create(entity: DeepPartial<T>): Promise<T> {
+    const newety = this.entityRepository.create(entity);
+    const newItem = await this.entityManager.save(newety);
     return newItem;
   }
 
-  async findOne(where: FindOptionsWhere<T>): Promise<T> {
-    const entity = await this.enntityRepository.findOne({ where });
+  async findOne(where: FindOptionsWhere<T>): Promise<T | null> {
+    const entity = await this.entityRepository.findOne({ where });
 
     if (!entity) {
       this.loger.warn('Entity not found with where:', where);
-      throw new NotFoundException('Entity not found');
+      // throw new NotFoundException('Entity not found');
     }
 
     return entity;
@@ -31,7 +37,7 @@ export abstract class AbstractRepository<T extends AbstractEntity<T>> {
     where: FindOptionsWhere<T>,
     partialEntity: QueryDeepPartialEntity<T>,
   ) {
-    const updateResult = await this.enntityRepository.update(
+    const updateResult = await this.entityRepository.update(
       where,
       partialEntity,
     );
@@ -45,14 +51,14 @@ export abstract class AbstractRepository<T extends AbstractEntity<T>> {
   }
 
   async find(where: FindOptionsWhere<T>) {
-    return this.enntityRepository.findBy(where);
+    return this.entityRepository.findBy(where);
   }
 
   async findOneAndDelete(where: FindOptionsWhere<T>) {
-    return this.enntityRepository.delete(where);
+    return this.entityRepository.delete(where);
   }
 
   async findAll() {
-    return this.enntityRepository.find();
+    return this.entityRepository.find();
   }
 }

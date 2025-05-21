@@ -17,7 +17,7 @@ export class InventoryService {
 
   updateInventory(updateInventoryDto: UpdateInventoryDto) {
     return this.inventoryClient
-      .emit('inventory.update.request', updateInventoryDto)
+      .emit('inventory.update.request', { ...updateInventoryDto })
       .pipe(
         catchError((err) => {
           throw new UnprocessableEntityException(err);

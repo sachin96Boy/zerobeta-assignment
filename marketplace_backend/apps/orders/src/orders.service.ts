@@ -1,19 +1,20 @@
+import { INVENTORY_SERVICE } from '@app/common';
 import {
   Inject,
   Injectable,
+  NotFoundException,
   UnprocessableEntityException,
 } from '@nestjs/common';
-import { OrderItemRepository, OrderRepository } from './order.repository';
-import { CreateOrderDto } from './dto/orderItem.entity';
-import { INVENTORY_SERVICE } from '@app/common';
 import { ClientKafkaProxy } from '@nestjs/microservices';
+import { CreateOrderDto } from './dto/orderItem.entity';
+import { OrderItemRepository, OrderRepository } from './order.repository';
 
-import { v4 as uuidv4 } from 'uuid';
-import { Order, OrderItem } from './models/order.entity';
-import { OrderStatus } from './enum/orderstatus.enum';
 import { catchError } from 'rxjs';
+import { v4 as uuidv4 } from 'uuid';
 import { OrderByBuyerId } from '../../../libs/common/src/dto/orderByBuyerId.dto';
 import { removOrderDto } from './dto/removeOrder.dto';
+import { OrderStatus } from './enum/orderstatus.enum';
+import { OrderItem } from './models/order.entity';
 
 @Injectable()
 export class OrdersService {
@@ -32,28 +33,20 @@ export class OrdersService {
       0,
     );
 
-    const newOrder = new Order({
+    const savedOrder = await this.orderRepository.create({
       orderRefference: orderRef,
       buyerId: data.buyerId,
       totalAmount: totalAmount,
       status: OrderStatus.PENDING,
     });
 
-    const savedOrder = await this.orderRepository.create(newOrder);
-
-    const orderItems = data.items.map((item) => {
-      const orderItem = new OrderItem({
+    for (const item of data.items) {
+      await this.orderItemRepositoy.create({
         order: savedOrder,
         productId: item.productId,
         price: item.unitPrice,
         quantity: item.quantity,
       });
-
-      return orderItem;
-    });
-
-    for (const orderItem of orderItems) {
-      await this.orderItemRepositoy.create(orderItem);
     }
 
     return savedOrder;
@@ -73,6 +66,9 @@ export class OrdersService {
       buyerId: data.buyerId,
     });
 
+    if (!order) {
+      throw new NotFoundException('Order not found');
+    }
     order.status = OrderStatus.CANCELLED;
 
     const updatedOrder = await this.orderRepository.findOneAndUpdate(
@@ -104,10 +100,12 @@ export class OrdersService {
     }
 
     // update inventory
-    this.inventoryClient.emit('update.inventory.order', orderItemList).pipe(
-      catchError((err) => {
-        throw new UnprocessableEntityException(err);
-      }),
-    );
+    this.inventoryClient
+      .emit('update.inventory.order', { ...orderItemList })
+      .pipe(
+        catchError((err) => {
+          throw new UnprocessableEntityException(err);
+        }),
+      );
   }
 }

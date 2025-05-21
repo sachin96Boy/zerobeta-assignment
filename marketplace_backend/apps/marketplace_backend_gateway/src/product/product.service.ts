@@ -16,10 +16,12 @@ export class ProductService {
   ) {}
 
   createProduct(@Body() createProductDto: CreateProductDto) {
-    return this.productClient.send('create.product', createProductDto).pipe(
-      catchError((err) => {
-        throw new UnprocessableEntityException(err);
-      }),
-    );
+    return this.productClient
+      .send('create.product', { ...createProductDto })
+      .pipe(
+        catchError((err) => {
+          throw new UnprocessableEntityException(err);
+        }),
+      );
   }
 }

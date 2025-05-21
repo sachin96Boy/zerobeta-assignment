@@ -3,7 +3,7 @@ import { OrderStatus } from '../enum/orderstatus.enum';
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 
 @Entity()
-export class Order extends AbstractEntity<Order> {
+export class Order extends AbstractEntity {
   @Column({ unique: true })
   orderRefference: string;
 
@@ -21,7 +21,7 @@ export class Order extends AbstractEntity<Order> {
 }
 
 @Entity()
-export class OrderItem extends AbstractEntity<OrderItem> {
+export class OrderItem extends AbstractEntity {
   @Column()
   productId: string;
 

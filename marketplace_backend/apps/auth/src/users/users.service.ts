@@ -3,7 +3,6 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UserRepository } from './user.repository';
 
 import * as bcrypt from 'bcryptjs';
-import { User } from './models/user.entity';
 
 @Injectable()
 export class UsersService {
@@ -21,12 +20,14 @@ export class UsersService {
       throw new UnprocessableEntityException('User already exists');
     }
 
-    const user = new User({
-      ...createUserDto,
+    const createdUser = await this.usersRepository.create({
+      firstName: createUserDto.firstName,
+      lastName: createUserDto.lastName,
+      email: createUserDto.email,
+      role: createUserDto.role,
+      country: createUserDto.country,
       password: hashedPassword,
     });
-
-    const createdUser = await this.usersRepository.create(user);
     const userWithoutPasswod = {
       ...createdUser,
       password: undefined,
