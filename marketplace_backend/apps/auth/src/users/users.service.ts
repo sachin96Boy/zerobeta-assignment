@@ -9,16 +9,12 @@ export class UsersService {
   constructor(private readonly usersRepository: UserRepository) {}
 
   async create(createUserDto: CreateUserDto) {
-    console.log(createUserDto);
-    console.log(createUserDto.password);
     const plainPassword = createUserDto.password;
     const hashedPassword = await bcrypt.hash(plainPassword, 10);
 
     const existingUser = await this.usersRepository.findOne({
       email: createUserDto.email,
     });
-
-    console.log(existingUser);
 
     if (existingUser) {
       throw new UnprocessableEntityException('User already exists');
