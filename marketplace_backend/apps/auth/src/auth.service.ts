@@ -1,8 +1,4 @@
-import {
-  Injectable,
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 
@@ -22,9 +18,8 @@ export class AuthService {
     const { email, password } = loginDto;
 
     const user = await this.userService.validate(email, password);
-
     if (!user) {
-      throw new NotFoundException('Invalid credentials');
+      throw new Error('Invalid credentials');
     }
 
     const userwithoutpassword = {
