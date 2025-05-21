@@ -14,7 +14,7 @@ export class AuthService {
   ) {}
 
   login(loginDto: LoginDto) {
-    return this.authClient.send('login.user', loginDto).pipe(
+    return this.authClient.send('login.user', { ...loginDto }).pipe(
       catchError((err) => {
         throw new UnprocessableEntityException(err);
       }),
@@ -22,7 +22,7 @@ export class AuthService {
   }
 
   register(createUserDto: CreateUserDto) {
-    return this.authClient.send('register.user', createUserDto).pipe(
+    return this.authClient.send('register.user', { ...createUserDto }).pipe(
       catchError((err) => {
         throw new UnprocessableEntityException(err);
       }),

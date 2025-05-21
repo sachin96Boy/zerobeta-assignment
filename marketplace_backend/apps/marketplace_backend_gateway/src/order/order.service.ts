@@ -17,22 +17,24 @@ export class OrderService {
   ) {}
 
   create(createOrderdto: CreateOrderDto) {
-    return this.orderClient.send('order.create.request', createOrderdto).pipe(
-      catchError((err) => {
-        throw new UnprocessableEntityException(err);
-      }),
-    );
+    return this.orderClient
+      .send('order.create.request', { ...createOrderdto })
+      .pipe(
+        catchError((err) => {
+          throw new UnprocessableEntityException(err);
+        }),
+      );
   }
 
   findAll(orderbyBuyerId: OrderByBuyerId) {
-    return this.orderClient.send('order.by.buyer', orderbyBuyerId).pipe(
+    return this.orderClient.send('order.by.buyer', { ...orderbyBuyerId }).pipe(
       catchError((err) => {
         throw new UnprocessableEntityException(err);
       }),
     );
   }
   removeOrder(removeOrderDto: removOrderDto) {
-    return this.orderClient.emit('remove.order', removeOrderDto).pipe(
+    return this.orderClient.emit('remove.order', { ...removeOrderDto }).pipe(
       catchError((err) => {
         throw new UnprocessableEntityException(err);
       }),

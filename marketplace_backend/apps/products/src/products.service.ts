@@ -7,7 +7,6 @@ import {
 import { ClientKafkaProxy } from '@nestjs/microservices';
 import { catchError } from 'rxjs';
 import { CreateProductDto } from './dto/create-product.dto';
-import { Product } from './models/product.entity';
 import { ProductRepository } from './product.repository';
 
 @Injectable()
@@ -29,12 +28,10 @@ export class ProductsService {
       throw new Error('Product is already available');
     }
 
-    const newProduct = new Product({
+    const product = await this.productRepository.create({
       ...data,
       sellerId,
     });
-
-    const product = await this.productRepository.create(newProduct);
 
     const invData = {
       productId: product.id,
@@ -42,7 +39,7 @@ export class ProductsService {
       quantity: 0,
     };
 
-    this.inventoryClient.emit('initial.product.inventory', invData).pipe(
+    this.inventoryClient.emit('initial.product.inventory', { ...invData }).pipe(
       catchError((err) => {
         throw new UnprocessableEntityException(err);
       }),

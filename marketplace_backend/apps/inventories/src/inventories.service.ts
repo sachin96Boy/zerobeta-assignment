@@ -1,9 +1,8 @@
+import { UpdateInventoryDto } from '@app/common';
 import { ConflictException, Injectable } from '@nestjs/common';
 import { OrderItem } from 'apps/orders/src/models/order.entity';
 import { InventoryDto } from './dto/inventory.dto';
 import { InventoryRepository } from './inventory.repository';
-import { Inventory } from './models/inventory.entity';
-import { UpdateInventoryDto } from '@app/common';
 
 @Injectable()
 export class InventoriesService {
@@ -18,11 +17,10 @@ export class InventoriesService {
     if (availableInventory) {
       throw new ConflictException('inventory item already created');
     }
-    const newInventory = new Inventory({
+
+    return await this.inventoryRepository.create({
       ...data,
     });
-
-    return await this.inventoryRepository.create(newInventory);
   }
 
   async updateInventoriesAfterOrder(
