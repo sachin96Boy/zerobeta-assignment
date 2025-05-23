@@ -10,3 +10,7 @@ As of now backend Parts are Complete. To buid the backend, please follow the bel
 4. Before Sending Req, make sure to wait since Micrservices might still be loading
 
 I've implented `/api` for swagger model docs, but I'll update it soon
+
+### Backend Structure
+
+![Screenshot_1](https://github.com/sachin96Boy/zerobeta-assignment/blob/main/marketplace_backend/assets/backend-structure.png)
